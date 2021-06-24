@@ -32,6 +32,8 @@ namespace WebAdvert.Search.Api
 
             services.AddElasticSearch(Configuration);
             services.AddTransient<ISearchService, SearchService>();
+
+            services.AddHealthChecks().AddCheck<ApiHealthCheck>("ApiHealthCheck");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -59,6 +61,8 @@ namespace WebAdvert.Search.Api
                     await context.Response.WriteAsync("Welcome to running ASP.NET Core on AWS Lambda");
                 });
             });
+
+            app.UseHealthChecks("/health");
         }
     }
 }
